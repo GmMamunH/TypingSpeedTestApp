@@ -122,7 +122,8 @@ function TypingTest() {
         onChange={(e) => setText(e.target.value)}
         disabled={isRunning}
       />
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-4"> 
+        <label className="pr-2"> Set your time (seconds): </label>
         <input
           type="number"
           className="w-20 p-2 border border-gray-300 rounded mr-2"
@@ -157,7 +158,7 @@ function TypingTest() {
       )}
       <div className="flex justify-center items-center gap-1">
         <p>© All Rights Reserved {year}</p>
-        <a className="text-green-700 text-xl font-semibold  hover:text-red-600 duration-300" href="https://gmmamunh.vercel.app/">
+        <a className="text-green-700 text-xl font-semibold hover:text-red-600 duration-300" href="https://gmmamunh.vercel.app/">
           RSM Develope
         </a>
       </div>
