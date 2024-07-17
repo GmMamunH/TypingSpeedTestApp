@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import logo from "../images/logo.png";
-
+// import { Link } from "react-router-dom";
 function TypingTest() {
+  const year = new Date().getUTCFullYear();
   const [text, setText] = useState("");
   const [inputText, setInputText] = useState("");
   const [time, setTime] = useState(0);
@@ -111,7 +112,7 @@ function TypingTest() {
     <div className="w-full max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-md">
       <div className="flex gap-3 items-center py-5">
         <img className="w-12" src={logo} alt="typing-speed-test-logo" />
-        <h1 className="text-2xl font-bold"> Check your Typing speed</h1>
+        <h1 className="text-2xl font-bold">Check your Typing speed</h1>
       </div>
 
       <textarea
@@ -154,6 +155,13 @@ function TypingTest() {
           />
         </div>
       )}
+      <div className="flex justify-center items-center gap-1">
+        <p>© All Rights Reserved {year}</p>
+        <a className="text-green-700 text-xl font-semibold  hover:text-red-600 duration-300" href="https://gmmamunh.vercel.app/">
+          RSM Develope
+        </a>
+      </div>
+
       {result && (
         <div className="mt-4">
           <h2 className="text-xl font-bold mb-2">Results</h2>
