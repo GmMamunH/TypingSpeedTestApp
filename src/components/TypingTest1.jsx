@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import logo from "../images/logo.png";
-
+// import { Link } from "react-router-dom";
 function TypingTest() {
   const year = new Date().getUTCFullYear();
   const [text, setText] = useState("");
@@ -12,7 +12,6 @@ function TypingTest() {
   const [result, setResult] = useState(null);
   const [savedResults, setSavedResults] = useState([]);
   const inputRef = useRef(null);
-  const audioRef = useRef(null);
 
   const calculateResults = useCallback(() => {
     const wordsTyped = inputText.trim().split(" ").length;
@@ -91,15 +90,7 @@ function TypingTest() {
   };
 
   const handleInputChange = (e) => {
-    const newValue = e.target.value;
-    const currentCharIndex = newValue.length - 1;
-    if (
-      newValue[currentCharIndex] !== text[currentCharIndex] &&
-      audioRef.current
-    ) {
-      audioRef.current.play();
-    }
-    setInputText(newValue);
+    setInputText(e.target.value);
   };
 
   const renderHighlightedText = () => {
@@ -119,10 +110,11 @@ function TypingTest() {
 
   return (
     <div className="w-full max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-md">
-        <div className="flex gap-3 items-center py-5">
+      <div className="flex gap-3 items-center py-5">
         <img className="w-12" src={logo} alt="typing-speed-test-logo" />
         <h1 className="text-2xl font-bold">Check your Typing speed</h1>
       </div>
+
       <textarea
         className="w-full p-2 border border-gray-300 rounded mb-4"
         placeholder="Enter text to type..."
@@ -130,8 +122,8 @@ function TypingTest() {
         onChange={(e) => setText(e.target.value)}
         disabled={isRunning}
       />
-      <div className="flex items-center mb-4">
-      <label className="pr-2"> Set your time (seconds): </label>
+      <div className="flex items-center mb-4"> 
+        <label className="pr-2"> Set your time (seconds): </label>
         <input
           type="number"
           className="w-20 p-2 border border-gray-300 rounded mr-2"
@@ -141,7 +133,7 @@ function TypingTest() {
           disabled={isRunning}
         />
         <button
-          className="p-2 bg-blue-500 text-white rounded hover:scale-110 duration-300"
+          className="p-2 bg-blue-500 text-white rounded"
           onClick={startTest}
           disabled={isRunning}
         >
@@ -164,18 +156,13 @@ function TypingTest() {
           />
         </div>
       )}
-      {/* ==================================== */}
       <div className="flex justify-center items-center gap-1">
         <p>© All Rights Reserved {year}</p>
-        <a
-          className="text-green-700 text-xl font-semibold hover:text-red-600 duration-300"
-          href="https://gmmamunh.vercel.app/"
-        >
+        <a className="text-green-700 text-xl font-semibold hover:text-red-600 duration-300" href="https://gmmamunh.vercel.app/">
           RSM Develope
         </a>
       </div>
 
-      {/* ======================================== */}
       {result && (
         <div className="mt-4">
           <h2 className="text-xl font-bold mb-2">Results</h2>
@@ -207,7 +194,6 @@ function TypingTest() {
           </ul>
         </div>
       )}
-      <audio ref={audioRef} src="error-sound.mp3" />
     </div>
   );
 }
