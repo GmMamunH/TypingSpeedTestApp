@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import logo from "../images/logo.png";
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 function TypingTest() {
-  const year = new Date().getUTCFullYear();
-  const [text, setText] = useState("");
-  const [inputText, setInputText] = useState("");
+  const [text, setText] = useState('');
+  const [inputText, setInputText] = useState('');
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [timer, setTimer] = useState(0);
@@ -17,46 +15,27 @@ function TypingTest() {
   const timeUpAudioRef = useRef(null);
 
   const calculateResults = useCallback(() => {
-    const wordsTyped = inputText.trim().split(" ").length;
-    const wordsPerMinute = wordsTyped / (elapsedTime / 60);
-    const correctChars = text
-      .trim()
-      .split("")
-      .filter((char, idx) => char === inputText.trim()[idx]).length;
+    const wordsTyped = inputText.trim().split(' ').length;
+    const wordsPerMinute = (wordsTyped / (elapsedTime / 60));
+    const correctChars = text.trim().split('').filter((char, idx) => char === inputText.trim()[idx]).length;
     const accuracy = (correctChars / text.trim().length) * 100;
-    const newResult = {
-      wordsPerMinute,
-      accuracy,
-      elapsedTime,
-      totalChars: text.length,
-      charsWritten: inputText.length,
-    };
+    const newResult = { wordsPerMinute, accuracy, elapsedTime, totalChars: text.length, charsWritten: inputText.length };
     setResult(newResult);
     saveResult(newResult);
   }, [inputText, text, elapsedTime]);
-  // // =============================================
-  //   const saveResult = (result) => {
-  //     const existingResults = JSON.parse(localStorage.getItem('typingTestResults')) || [];
-  //     existingResults.push(result); // Add new result at the last
-  //     localStorage.setItem('typingTestResults', JSON.stringify(existingResults));
-  //     setSavedResults(existingResults);
-  //   };
-  // // =======================================
-  // =======================================
+// =======================================
   const saveResult = (result) => {
-    let existingResults =
-      JSON.parse(localStorage.getItem("typingTestResults")) || [];
+    let existingResults = JSON.parse(localStorage.getItem('typingTestResults')) || [];
     existingResults.unshift(result); // Add new result at the beginning
     if (existingResults.length > 5) {
       existingResults = existingResults.slice(0, 5); // Keep only the last 5 results
     }
-    localStorage.setItem("typingTestResults", JSON.stringify(existingResults));
+    localStorage.setItem('typingTestResults', JSON.stringify(existingResults));
     setSavedResults(existingResults);
   };
-  // ====================================
+// ====================================
   const loadResults = () => {
-    const existingResults =
-      JSON.parse(localStorage.getItem("typingTestResults")) || [];
+    const existingResults = JSON.parse(localStorage.getItem('typingTestResults')) || [];
     setSavedResults(existingResults);
   };
 
@@ -101,31 +80,28 @@ function TypingTest() {
       setIsRunning(true);
       setTimer(time);
       setElapsedTime(0);
-      setInputText("");
+      setInputText('');
       setResult(null);
     } else {
-      alert("Please enter text and set a valid time.");
+      alert('Please enter text and set a valid time.');
     }
   };
 
   const handleInputChange = (e) => {
     const newValue = e.target.value;
     const currentCharIndex = newValue.length - 1;
-    if (
-      newValue[currentCharIndex] !== text[currentCharIndex] &&
-      errorAudioRef.current
-    ) {
+    if (newValue[currentCharIndex] !== text[currentCharIndex] && errorAudioRef.current) {
       errorAudioRef.current.play();
     }
     setInputText(newValue);
   };
 
   const renderHighlightedText = () => {
-    return text.split("").map((char, idx) => {
+    return text.split('').map((char, idx) => {
       const userChar = inputText[idx];
-      let bgColor = "";
+      let bgColor = '';
       if (userChar !== undefined) {
-        bgColor = char === userChar ? "bg-green-200" : "bg-red-200";
+        bgColor = char === userChar ? 'bg-green-200' : 'bg-red-200';
       }
       return (
         <span key={idx} className={`${bgColor} p-1`}>
@@ -137,10 +113,7 @@ function TypingTest() {
 
   return (
     <div className="w-full max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-md">
-      <div className="flex gap-3 items-center py-5">
-        <img className="w-12" src={logo} alt="typing-speed-test-logo" />
-        <h1 className="text-2xl font-bold">Check your Typing speed</h1>
-      </div>
+      <h1 className="text-2xl font-bold mb-4">Typing Speed Test</h1>
       <textarea
         className="w-full p-2 border border-gray-300 rounded mb-4"
         placeholder="Enter text to type..."
@@ -149,7 +122,6 @@ function TypingTest() {
         disabled={isRunning}
       />
       <div className="flex items-center mb-4">
-        <label className="pr-2"> Set your time (seconds): </label>
         <input
           type="number"
           className="w-20 p-2 border border-gray-300 rounded mr-2"
@@ -159,7 +131,7 @@ function TypingTest() {
           disabled={isRunning}
         />
         <button
-          className="p-2 bg-blue-500 text-white rounded hover:scale-110 duration-300"
+          className="p-2 bg-blue-500 text-white rounded"
           onClick={startTest}
           disabled={isRunning}
         >
@@ -182,37 +154,19 @@ function TypingTest() {
           />
         </div>
       )}
-      {/* ========================= */}
-      <div className="flex justify-center items-center gap-1">
-        <p>
-          © All Rights Reserved{" "}
-          <span className="text-blue-700 font-semibold">{year}</span>
-        </p>
-        <a
-          className="text-green-700 text-xl font-semibold hover:text-red-600 duration-300"
-          href="https://gmmamunh.vercel.app/"
-        >
-          RSM Develope
-        </a>
-      </div>
-      {/* ========================= */}
       {result && (
         <div className="mt-4">
           <h2 className="text-xl font-bold mb-2">Results</h2>
-          <p>Words per minute: {result.wordsPerMinute.toFixed(2)}</p>
+          <p>Words per minute: {result.wordsPerMinute}</p>
           <p>Accuracy: {result.accuracy.toFixed(2)}%</p>
           <p>Elapsed time: {result.elapsedTime} seconds</p>
           <p>Total characters: {result.totalChars}</p>
           <p>Characters written: {result.charsWritten}</p>
           {result.accuracy === 100 && (
-            <p className="text-green-500 font-bold">
-              Congratulations! You finished the text perfectly!
-            </p>
+            <p className="text-green-500 font-bold">Congratulations! You finished the text perfectly!</p>
           )}
           {result.accuracy !== 100 && (
-            <p className="text-red-500 font-bold">
-              Try again! You need to type faster!
-            </p>
+            <p className="text-green-500 font-bold">Fail! You finished the text perfectly!</p>
           )}
         </div>
       )}
@@ -222,13 +176,11 @@ function TypingTest() {
           <ul>
             {savedResults.map((res, idx) => (
               <li key={idx} className="mb-2 p-2 border border-gray-300 rounded">
-                <p>
-                  Words per minute: {res.wordsPerMinute?.toFixed(2) ?? "N/A"}
-                </p>
-                <p>Accuracy: {res.accuracy?.toFixed(2) ?? "N/A"}%</p>
-                <p>Elapsed time: {res.elapsedTime ?? "N/A"} seconds</p>
-                <p>Total characters: {res.totalChars ?? "N/A"}</p>
-                <p>Characters written: {res.charsWritten ?? "N/A"}</p>
+                <p>Words per minute: {res.wordsPerMinute}</p>
+                <p>Accuracy: {res.accuracy.toFixed(2)}%</p>
+                <p>Elapsed time: {res.elapsedTime} seconds</p>
+                <p>Total characters: {res.totalChars}</p>
+                <p>Characters written: {res.charsWritten}</p>
               </li>
             ))}
           </ul>
@@ -236,7 +188,7 @@ function TypingTest() {
       )}
       <audio ref={errorAudioRef} src="error-sound.mp3" />
       <audio ref={congratsAudioRef} src="congrats-sound.mp3" />
-      <audio ref={timeUpAudioRef} src="time-up-sound1.mp3" />
+      <audio ref={timeUpAudioRef} src="time-up-sound.mp3" />
     </div>
   );
 }
